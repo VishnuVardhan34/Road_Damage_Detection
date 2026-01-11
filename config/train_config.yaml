@@ -1,0 +1,77 @@
+training:
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.001
+  warmup_epochs: 5
+  optimizer: AdamW
+  weight_decay: 0.0005
+  momentum: 0.937
+  
+  # Learning rate scheduler
+  scheduler: cosine
+  cosine_lr_min: 0.0001
+  
+  # EMA settings
+  ema_enabled: true
+  ema_decay: 0.9999
+  
+  # Patience for early stopping
+  patience: 20
+  
+  # Checkpoint settings
+  save_interval: 5
+  save_best_only: true
+
+data:
+  image_size: 1024
+  train_split: 0.7
+  val_split: 0.2
+  test_split: 0.1
+  num_workers: 4
+  
+augmentation:
+  mosaic: true
+  mosaic_prob: 0.9
+  hsv_h: 0.015  # HSV-Hue augmentation (fraction)
+  hsv_s: 0.7    # HSV-Saturation augmentation (fraction)
+  hsv_v: 0.4    # HSV-Value augmentation (fraction)
+  degrees: 10   # rotation degrees
+  translate: 0.1  # image translation (+/- fraction)
+  scale: 0.5    # image scale (+/- fraction)
+  flipud: 0.5   # image flip up-down (probability)
+  fliplr: 0.5   # image flip left-right (probability)
+  perspective: 0.0  # perspective transformation
+  shear: 0.0    # shear degrees
+  motion_blur: 0.3
+  gaussian_blur: 0.2
+  shadows: 0.3
+
+model:
+  architecture: yolov8
+  variant: l  # l, m, s, n
+  pretrained: true
+  pretrain_weights: coco  # coco, imagenet
+  num_classes: 6
+  
+  # Loss weights
+  cls_weight: 1.0
+  obj_weight: 1.0
+  box_weight: 7.5
+  dfl_weight: 1.5
+
+paths:
+  data_dir: ./data/processed
+  checkpoints_dir: ./checkpoints
+  logs_dir: ./logs
+  results_dir: ./results
+
+device:
+  use_cuda: true
+  gpu_ids: [0]
+  amp_enabled: true  # Automatic Mixed Precision
+
+logging:
+  log_level: INFO
+  wandb_enabled: false
+  wandb_project: road-damage-detection
+  tensorboard_enabled: true

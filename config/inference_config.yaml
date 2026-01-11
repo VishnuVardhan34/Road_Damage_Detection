@@ -1,0 +1,42 @@
+inference:
+  model_path: ./checkpoints/best_model.pt
+  device: cuda
+  batch_size: 1
+  
+  # Inference optimization
+  use_onnx: false
+  use_tensorrt: false
+  use_half: true  # FP16
+  
+  # Performance targets
+  target_latency_ms: 50
+  target_fps: 30
+
+post_processing:
+  nms_enabled: true
+  nms_threshold: 0.45
+  confidence_threshold: 0.5
+  
+  # Grouping overlapping detections
+  use_soft_nms: false
+  soft_nms_method: linear  # linear, gaussian, hard
+  soft_nms_sigma: 0.5
+
+output_format:
+  annotate_image: true
+  include_coordinates: true
+  include_confidence: true
+  include_severity: true
+  bbox_color: [0, 255, 0]  # BGR
+  text_color: [255, 255, 255]
+
+api:
+  max_image_size_mb: 50
+  supported_formats: [jpg, jpeg, png, bmp]
+  cors_origins: ["*"]
+  workers: 4
+
+logging:
+  log_inference_time: true
+  save_annotations: false
+  save_path: ./inference_results

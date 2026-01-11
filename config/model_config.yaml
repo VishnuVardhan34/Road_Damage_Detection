@@ -1,0 +1,52 @@
+model:
+  name: YOLOv8
+  variant: l
+  input_size: 1024
+  num_classes: 6
+  
+classes:
+  0: Crack
+  1: Pothole
+  2: Rutting
+  3: Patch
+  4: Lane_Wear
+  5: Manhole
+
+class_aliases:
+  D00: Crack
+  D01: Crack
+  D10: Crack
+  D11: Pothole
+  D20: Rutting
+  D40: Patch
+  D43: Lane_Wear
+  D44: Manhole
+
+inference:
+  confidence_threshold: 0.5
+  nms_threshold: 0.45
+  max_detections: 300
+  batch_size: 1
+
+severity_estimation:
+  # Severity formula weights
+  area_ratio_weight: 0.45
+  damage_count_weight: 0.30
+  texture_roughness_weight: 0.25
+  
+  # Severity thresholds
+  good_threshold: 25
+  moderate_threshold: 50
+  severe_threshold: 75
+  critical_threshold: 100
+  
+  # Texture analysis
+  sobel_kernel_size: 3
+  roughness_percentile: 95
+  min_damage_area: 50  # minimum pixels for damage
+
+optimization:
+  enable_onnx: true
+  enable_tensorrt: false
+  quantization: false
+  quantization_type: int8  # int8, float16
